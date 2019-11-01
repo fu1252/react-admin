@@ -45,10 +45,11 @@ const imageInlineSizeLimit = parseInt(
 const useTypeScript = fs.existsSync(paths.appTsConfig);
 
 // style files regexes
-const cssRegex = /\.css$/;
-const cssModuleRegex = /\.module\.css$/;
-const sassRegex = /\.(scss|sass)$/;
-const sassModuleRegex = /\.module\.(scss|sass)$/;
+const cssRegex = /\.css$/
+// const cssModuleRegex = /\.module\.css$/;
+// const sassRegex = /\.(scss|sass)$/;
+// const sassModuleRegex = /\.module\.(scss|sass)$/;
+const lessRegex = /\.less$/
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -275,6 +276,20 @@ module.exports = function(webpackEnv) {
       splitChunks: {
         chunks: 'all',
         name: false,
+        maxAsyncRequests: 10,
+        maxInitialRequests: 10,
+        cacheGroups: {
+          react_dom: {
+            test: /[\\/]node_modules[\\/](react-dom)[\\/]/,
+            name: 'react_dom',
+            chunks: 'all'
+          },
+          react: {
+            test: /[\\/]node_modules[\\/](react)[\\/]/,
+            name: 'react',
+            chunks: 'all'
+          },
+        }
       },
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
@@ -384,6 +399,13 @@ module.exports = function(webpackEnv) {
                 
                 plugins: [
                   [
+                    'import',
+                    {
+                      libraryName: 'antd',
+                      style: 'css'
+                    }
+                  ],
+                  [
                     require.resolve('babel-plugin-named-asset-import'),
                     {
                       loaderMap: {
@@ -440,7 +462,7 @@ module.exports = function(webpackEnv) {
             // By default we support CSS Modules with the extension .module.css
             {
               test: cssRegex,
-              exclude: cssModuleRegex,
+              // exclude: cssModuleRegex,
               use: getStyleLoaders({
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
@@ -453,53 +475,65 @@ module.exports = function(webpackEnv) {
             },
             // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
             // using the extension .module.css
-            {
-              test: cssModuleRegex,
-              use: getStyleLoaders({
-                importLoaders: 1,
-                sourceMap: isEnvProduction && shouldUseSourceMap,
-                modules: true,
-                getLocalIdent: getCSSModuleLocalIdent,
-              }),
-            },
+            // {
+            //   test: cssModuleRegex,
+            //   use: getStyleLoaders({
+            //     importLoaders: 1,
+            //     sourceMap: isEnvProduction && shouldUseSourceMap,
+            //     modules: true,
+            //     getLocalIdent: getCSSModuleLocalIdent,
+            //   }),
+            // },
             // Opt-in support for SASS (using .scss or .sass extensions).
             // By default we support SASS Modules with the
             // extensions .module.scss or .module.sass
-            {
-              test: sassRegex,
-              exclude: sassModuleRegex,
-              use: getStyleLoaders(
-                {
-                  importLoaders: 2,
-                  sourceMap: isEnvProduction && shouldUseSourceMap,
-                },
-                'sass-loader'
-              ),
-              // Don't consider CSS imports dead code even if the
-              // containing package claims to have no side effects.
-              // Remove this when webpack adds a warning or an error for this.
-              // See https://github.com/webpack/webpack/issues/6571
-              sideEffects: true,
-            },
+            // {
+            //   test: sassRegex,
+            //   exclude: sassModuleRegex,
+            //   use: getStyleLoaders(
+            //     {
+            //       importLoaders: 2,
+            //       sourceMap: isEnvProduction && shouldUseSourceMap,
+            //     },
+            //     'sass-loader'
+            //   ),
+            //   // Don't consider CSS imports dead code even if the
+            //   // containing package claims to have no side effects.
+            //   // Remove this when webpack adds a warning or an error for this.
+            //   // See https://github.com/webpack/webpack/issues/6571
+            //   sideEffects: true,
+            // },
             // Adds support for CSS Modules, but using SASS
             // using the extension .module.scss or .module.sass
-            {
-              test: sassModuleRegex,
-              use: getStyleLoaders(
-                {
-                  importLoaders: 2,
-                  sourceMap: isEnvProduction && shouldUseSourceMap,
-                  modules: true,
-                  getLocalIdent: getCSSModuleLocalIdent,
-                },
-                'sass-loader'
-              ),
-            },
+            // {
+            //   test: sassModuleRegex,
+            //   use: getStyleLoaders(
+            //     {
+            //       importLoaders: 2,
+            //       sourceMap: isEnvProduction && shouldUseSourceMap,
+            //       modules: true,
+            //       getLocalIdent: getCSSModuleLocalIdent,
+            //     },
+            //     'sass-loader'
+            //   ),
+            // },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
             // In production, they would get copied to the `build` folder.
             // This loader doesn't use a "test" so it will catch all modules
             // that fall through the other loaders.
+            {
+              test: lessRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap,
+                  modules: true,
+                  getLocalIdent: getCSSModuleLocalIdent
+                },
+                'less-loader'
+              )
+            },
             {
               loader: require.resolve('file-loader'),
               // Exclude `js` files to keep "css" loader working as it injects
