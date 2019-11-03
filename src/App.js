@@ -1,60 +1,68 @@
-import React,{useEffect,useState} from 'react';
-import {Button,Input,Checkbox} from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Button, Input, Checkbox } from 'antd'
 import useForm from 'react-hook-form'
 import List from './List'
-import styles from './App.less';
+import styles from './App.less'
 
 function App() {
-  const {register,handleSubmit,setValue,reset}=useForm()
+  const { register, handleSubmit, setValue, reset } = useForm()
 
-  console.log('母组件加载');
-  
-  const data=[
-    {a:11111,b:'filter'},
-    {a:22222},
-    {a:33333},
-    {a:44444},
+  console.log('母组件加载')
+
+  const data = [
+    { a: 11111, b: 'filter' },
+    { a: 22222 },
+    { a: 33333 },
+    { a: 44444 },
   ]
-  
+
   const [showList, setshowList] = useState(true)
   const [filterData, setFilterData] = useState(data)
-  const [checkValue, setCheckValue] = useState(true)
-  const [inputValue, setInputValue] = useState('请输入')
 
-  useEffect(() => {
-    console.log(1111);
-    if(checkValue===false){
-      console.log(2222);
-      const temp=filterData.filter(item=>item.b==='filter')
-      setFilterData(temp)
-    }else{
-      setFilterData(data)
+  const onSubmit = (data, e) => {
+    console.log('TCL: onSubmit -> data', data)
+    if(data.toggle){
+      e.target.reset()
     }
-  }, [checkValue])
-
-  useEffect(() => {
-    register({name:'input',required: true})
-    register({name:'check',required: true})
-  }, [register])
-
-  const onSubmit = (data,e)=>{
-    console.log('data',data);
-    setCheckValue(data.check )
-    reset({
-      'input':'',
-      check:true
-    })
   }
 
   return (
     <div className={styles.app}>
-       <Input name='input' defaultValue='啊啊啊'  className='input'  onChange={(e)=>setValue('input',e.target.value)} type="text"/>
-       <Checkbox name='check' defaultChecked={true} onChange={(e)=>setValue('check',e.target.checked)}>选择</Checkbox>
-       {showList&&<List data={filterData}/>}
-       <Button type='primary' onClick={()=>setshowList(!showList)}>Button</Button>
-       <Button type='primary' onClick={handleSubmit(onSubmit)}>提交</Button>
+      <Input type="text" />
+      <Checkbox>选择</Checkbox>
+      {showList && <List data={filterData} />}
+
+      <Button type='primary' onClick={() => setshowList(!showList)}>Button</Button>
+      <Button type='primary' >提交</Button>
+
+      {/* 自定义 */}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input name='input' ref={register} className='custom-input' type="text" />
+
+        <div>
+          <input ref={register} className='custom-radio' type="radio" id="radio1"
+            name="contact" value="email" />
+          <label htmlFor="radio1">Email</label>
+
+          <input ref={register} className='custom-radio' type="radio" id="contactChoice2"
+            name="contact" value="phone" />
+          <label htmlFor="contactChoice2">Phone</label>
+
+          <input ref={register} className='custom-radio' type="radio" id="contactChoice3"
+            name="contact" value="mail" />
+          <label htmlFor="contactChoice3">Mail</label>
+        </div>
+
+        <input ref={register} className='custom-checkbox' type="checkbox" name="checkbox" id="checkbox" />
+        <label htmlFor="checkbox">选择</label>
+
+        <input ref={register} className='custom-toggle' type="checkbox" name="toggle" id="toggle" />
+        <label htmlFor="toggle">选择</label>
+
+        <button className='custom-btn' type='submit'>提交</button>
+      </form>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
