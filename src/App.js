@@ -3,9 +3,12 @@ import { Button, Input, Checkbox } from 'antd'
 import useForm from 'react-hook-form'
 import List from './List'
 import styles from './App.less'
+import {useStoreState,useStoreActions} from 'easy-peasy'
 
 function App() {
   const { register, handleSubmit, setValue, reset } = useForm()
+  const todos = useStoreState(state => state.todos.items)
+  const add = useStoreActions(actions => actions.todos.add)
 
   console.log('母组件加载')
 
@@ -61,6 +64,12 @@ function App() {
 
         <button className='custom-btn' type='submit'>提交</button>
       </form>
+
+      <div>
+      {todos.map((todo, idx) => <div key={idx}>{todo}</div>)}
+        <button className='custom-btn' onClick={()=>add('aaaa')}>添加</button>
+    </div>
+
     </div>
   )
 }
