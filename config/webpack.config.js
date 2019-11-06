@@ -110,6 +110,22 @@ module.exports = function(webpackEnv) {
               },
               stage: 3,
             }),
+            require('postcss-px-to-viewport')({
+              unitToConvert: 'px',
+              viewportWidth: 375,
+              unitPrecision: 5,
+              propList: ['*'],
+              viewportUnit: 'vw',
+              fontViewportUnit: 'vw',
+              selectorBlackList: [],
+              minPixelValue: 1,
+              mediaQuery: false,
+              replace: true,
+              exclude: [],
+              landscape: false,
+              landscapeUnit: 'vw',
+              landscapeWidth: 812
+            }),
             // Adds PostCSS Normalize as the reset css with default options,
             // so that it honors browserslist config in package.json
             // which in turn let's users customize the target behavior as per their needs.
@@ -401,7 +417,7 @@ module.exports = function(webpackEnv) {
                   [
                     'import',
                     {
-                      libraryName: 'antd',
+                      libraryName: 'antd-mobile',
                       style: 'css'
                     }
                   ],

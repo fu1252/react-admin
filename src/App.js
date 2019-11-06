@@ -1,77 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Input, Checkbox } from 'antd'
-import useForm from 'react-hook-form'
-import List from './List'
-import styles from './App.less'
-import {useStoreState,useStoreActions} from 'easy-peasy'
+import React from "react";
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import Login from './pages/login/login'
+import Home from './pages/home/home'
+import HomeTwo from './pages/home/homeTwo'
 
 function App() {
-  const { register, handleSubmit, setValue, reset } = useForm()
-  const todos = useStoreState(state => state.todos.items)
-  const add = useStoreActions(actions => actions.todos.add)
-
-  console.log('母组件加载')
-
-  const data = [
-    { a: 11111, b: 'filter' },
-    { a: 22222 },
-    { a: 33333 },
-    { a: 44444 },
-  ]
-
-  const [showList, setshowList] = useState(true)
-  const [filterData, setFilterData] = useState(data)
-
-  const onSubmit = (data, e) => {
-    console.log('TCL: onSubmit -> data', data)
-    if(data.toggle){
-      e.target.reset()
-    }
-  }
+  console.log("app组件加载");
 
   return (
-    <div className={styles.app}>
-      <Input type="text" />
-      <Checkbox>选择</Checkbox>
-      {showList && <List data={filterData} />}
-
-      <Button type='primary' onClick={() => setshowList(!showList)}>Button</Button>
-      <Button type='primary' >提交</Button>
-
-      {/* 自定义 */}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input name='input' ref={register} className='custom-input' type="text" />
-
-        <div>
-          <input ref={register} className='custom-radio' type="radio" id="radio1"
-            name="contact" value="email" />
-          <label htmlFor="radio1">Email</label>
-
-          <input ref={register} className='custom-radio' type="radio" id="contactChoice2"
-            name="contact" value="phone" />
-          <label htmlFor="contactChoice2">Phone</label>
-
-          <input ref={register} className='custom-radio' type="radio" id="contactChoice3"
-            name="contact" value="mail" />
-          <label htmlFor="contactChoice3">Mail</label>
-        </div>
-
-        <input ref={register} className='custom-checkbox' type="checkbox" name="checkbox" id="checkbox" />
-        <label htmlFor="checkbox">选择</label>
-
-        <input ref={register} className='custom-toggle' type="checkbox" name="toggle" id="toggle" />
-        <label htmlFor="toggle">选择</label>
-
-        <button className='custom-btn' type='submit'>提交</button>
-      </form>
-
-      <div>
-      {todos.map((todo, idx) => <div key={idx}>{todo}</div>)}
-        <button className='custom-btn' onClick={()=>add('aaaa')}>添加</button>
-    </div>
-
-    </div>
-  )
+    <Router>
+      <>
+      <Switch>
+        <Route exact path='/login'>
+          <Login />
+        </Route>
+        <Route exact path='/'>
+          <Home>
+          <HomeTwo/>
+          </Home>
+        </Route>
+      </Switch>
+      </>
+    </Router>
+  );
 }
 
-export default App
+export default App;
