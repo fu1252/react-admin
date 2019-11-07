@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
+  background-color: #fff;
 }
 
 code {
@@ -20,7 +21,9 @@ ul{
   margin:0;
   padding: 0;
 }
-
+*,*::before,*::after{
+  box-sizing: border-box;
+}
 
 
 /* 自定义元素 */
@@ -83,7 +86,7 @@ border-color: #3e97eb;
   height: 16px;
   border: 1px solid #999;
   outline: none;
-  margin-right: 5px;
+  margin:0 8px 0 0;
   transition: all 200ms ease-out;
   position: relative;
 }

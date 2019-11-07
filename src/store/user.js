@@ -1,5 +1,7 @@
+import {getUserData} from '../utils/helps'
+
 const user={
-  isLogin:false,
+  
 }
 
 export default user

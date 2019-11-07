@@ -1,24 +1,20 @@
-import React from 'react';
-import {useHistory,Redirect,useLocation } from 'react-router-dom';
-import {useStoreState} from 'easy-peasy'
+import React from "react";
+import { useHistory } from "react-router-dom";
 
-function Home({children}){
-  let history=useHistory()
-  let location=useLocation()
-  const isLogin=useStoreState(state=>state.user.isLogin)
+function Home({ children }) {
+  let history = useHistory();
 
-  return(
+  return (
     <div>
-      <button className='custom-btn' onClick={()=>history.push('/login')}>登录 </button>
-      {isLogin?children:<Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-          />}
+      <button className="custom-btn" onClick={() => history.push("/login")}>
+        登录{" "}
+      </button>
       主页
+      <button className="custom-btn" onClick={() => history.push("/test")}>
+        test{" "}
+      </button>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
