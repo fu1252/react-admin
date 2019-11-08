@@ -1,0 +1,49 @@
+.home{
+  :global{
+    .am-drawer{
+      margin-top: 45px;
+    }
+    .am-drawer-draghandle{
+      width:1px !important;
+    }
+  }
+}
+
+.sidebarList{
+  height: 100vh;
+  width: 150px;
+  background-color: #fff;
+  overflow: hidden;
+  :global{
+    .listItem{
+      margin: 0 0 30px 30px;
+    }
+    .username{
+      margin: 30px 0 30px 20px;
+      display: flex;
+      align-items: center;
+      .avatar{
+        width: 50px;
+        height: 50px;
+        border-radius:50%;
+        background-color: bisque;
+        display: inline-block;
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+.notfound{
+  position: fixed;
+  top:0;
+  left: 0;
+  color:#fff;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: cadetblue;
+}

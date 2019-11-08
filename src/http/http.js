@@ -10,14 +10,15 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
-    console.log("TCL: config", config);
     if (getUserData()) {
       const time = getUserData().login_time;
       const difTime = new Date().getTime() - time > 1000 * 60 * 60 * 24;
       if (difTime) {
-        Toast.fail("登录过期");
-        localStorage.removeItem("userData");
-        window.history.go("/");
+        Toast.fail("登录过期,请重新登录",3);
+        setTimeout(() => {
+          localStorage.removeItem("userData");
+          window.history.go("/");
+        }, 3000);
       }
       config.headers["Authorization"] = `JWT ${getUserData().access_token}`;
     }
@@ -29,7 +30,6 @@ service.interceptors.request.use(
     return config;
   },
   error => {
-    console.log(error);
     Toast.fail(error, 3);
     Promise.reject(error);
   }
@@ -46,7 +46,6 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log("err", error);
     Toast.fail(error, 3);
     return Promise.reject(error);
   }

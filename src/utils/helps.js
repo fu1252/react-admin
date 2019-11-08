@@ -1,7 +1,7 @@
 export function getUserData(){
-  const token=localStorage.getItem('userData')
-  if(token){
-    return JSON.parse(token)
+  const data=localStorage.getItem('userData')
+  if(data){
+    return JSON.parse(data)
   }else{
     return null
   }

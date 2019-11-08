@@ -5,28 +5,26 @@ import http from "../../http/http";
 import "./login.css";
 
 function Login() {
-  const account=JSON.parse(localStorage.getItem('account'))
+  const account = JSON.parse(localStorage.getItem("account"));
   const { register, handleSubmit, errors } = useForm({
-    defaultValues:{
-      name:account?account.name:null,
-      password:account?account.password:null
+    defaultValues: {
+      name: account ? account.name : null,
+      password: account ? account.password : null
     }
   });
   let history = useHistory();
   let location = useLocation();
   let { from } = location.state || { from: { pathname: "/" } };
-  console.log("TCL: Login -> from", from)
+  console.log("TCL: Login -> from", from);
   const [showPWD, setShowPWD] = useState(false);
-  
+
   async function onSubmit(data, e) {
     delete data.isPartner;
     localStorage.setItem("account", JSON.stringify(data));
-    const res=await http({url:"operators/login", data:data,
-    method:'post',headers:{'noNeedToken':true}
-  })
-  res.login_time=new Date().getTime()
-  await localStorage.setItem("userData", JSON.stringify(res))
-  history.replace(from)
+    const res = await http({ url: "operators/login", data: data, method: "post", headers: { noNeedToken: true } });
+    res.login_time = new Date().getTime();
+    await localStorage.setItem("userData", JSON.stringify(res));
+    history.replace(from);
   }
 
   return (
@@ -44,7 +42,7 @@ function Login() {
         </span>
         {errors.password && <div className="warn-text">请输入密码 </div>}
         <div className="login-checkbox">
-          <input type="checkbox" ref={register} name='isPartner' className="custom-checkbox" id="checkbox" /> <label htmlFor="checkbox">我是子账号/合伙人</label>
+          <input type="checkbox" ref={register} name="isPartner" className="custom-checkbox" id="checkbox" /> <label htmlFor="checkbox">我是子账号/合伙人</label>
         </div>
         <button className="custom-btn login-submit" type="submit">
           登录
