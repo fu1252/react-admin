@@ -1,9 +1,7 @@
 import axios from "axios";
 import { Toast } from "antd-mobile";
 import allApi from "../config.js";
-import {getLocalStorage} from '@/utils/helps'
-
-const userData=getLocalStorage('userData')
+import {getLocalStorage} from '@/utils/storage'
 
 const service = axios.create({
   baseURL: allApi.api,
@@ -12,6 +10,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
+    const userData=getLocalStorage('userData')
     if (userData) {
       const time = userData.login_time;
       const difTime = new Date().getTime() - time > 1000 * 60 * 60 * 24;

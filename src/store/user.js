@@ -1,9 +1,10 @@
-import {action} from 'easy-peasy'
+import { action } from "easy-peasy";
+import { getLocalStorage, setLocalStorage } from "@/utils/storage";
 
-const user={
-  isOpenSidebar:false,
-  closeSidebar:action(state=>state.isOpenSidebar=false),
-  toggleSidebar:action(state=>state.isOpenSidebar=!state.isOpenSidebar),
-}
 
-export default user
+
+const user = {
+ 
+};
+
+export default user;

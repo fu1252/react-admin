@@ -1,30 +1,36 @@
-import React from "react";
-import {  Switch, Route,Redirect,useLocation} from "react-router-dom";
-import Login from './pages/login/login'
-import Home from './pages/home/home'
-import {getLocalStorage} from '@/utils/helps'
+import React, { lazy, Suspense } from "react";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
+import { isLogin } from "@/utils/storage";
+import PointLoading from "@/components/loading/loading";
+
+const Home = lazy(() => import("@/pages/home/home"));
+const Login = lazy(() => import("@/pages/login/login"));
 
 function App() {
-  let location=useLocation()
-  const userData=getLocalStorage('userData')
-  console.log("TCL: App -> userData", userData)
+
+  let location = useLocation();
 
   return (
-      <>
-      <Switch>
-        <Route  path='/login'>
-          <Login />
-        </Route>
-       
-        {userData?<Home/>:<Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-            />}
+    <>
+      <Suspense fallback={<PointLoading />}>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
 
-      </Switch>
-      </>
+          {isLogin() ? (
+            <Home />
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location }
+              }}
+            />
+          )}
+        </Switch>
+      </Suspense>
+    </>
   );
 }
 

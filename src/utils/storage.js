@@ -9,6 +9,15 @@ export function getLocalStorage(key){
   }
 }
 
+export function isLogin(){
+  const haveValue=getLocalStorage('userData')
+  if(haveValue){
+    return true
+  }else{
+    return false
+  }
+}
+
 export function setLocalStorage(key,value){
   const data=JSON.stringify(value)
   return localStorage.setItem(key,data)
@@ -23,7 +32,6 @@ export function getSessionStorage(key){
     return null
   }
 }
-
 
 export function setSessionStorage(key,value){
   const data=JSON.stringify(value)
