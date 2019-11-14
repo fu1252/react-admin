@@ -226,3 +226,9 @@ outline:none;
 .custom-btn:hover,.custom-btn:focus{
     background-color: #40a9ff;
 }
+
+/* svg */
+.custom-svg{
+  width: 18px;
+  height: 18px;
+}

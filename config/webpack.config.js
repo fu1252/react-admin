@@ -420,8 +420,9 @@ module.exports = function(webpackEnv) {
                     {
                       libraryName: 'antd-mobile',
                       style: 'css'
-                    }
+                    },'antd-mobile'
                   ],
+        
                   [
                     require.resolve('babel-plugin-named-asset-import'),
                     {
@@ -432,7 +433,7 @@ module.exports = function(webpackEnv) {
                         },
                       },
                     },
-                  ],
+                  ]
                 ],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/

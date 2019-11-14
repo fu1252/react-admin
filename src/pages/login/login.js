@@ -1,11 +1,13 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import useForm from "react-hook-form";
 import http from "../../http/http";
+import {getLocalStorage,setLocalStorage } from '@/utils/helps'
 import "./login.css";
 
 function Login() {
-  const account = JSON.parse(localStorage.getItem("account"));
+  const account=getLocalStorage('account')
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       name: account ? account.name : null,
@@ -13,18 +15,19 @@ function Login() {
     }
   });
   let history = useHistory();
+  console.log("TCL: history", history)
   let location = useLocation();
   let { from } = location.state || { from: { pathname: "/" } };
-  console.log("TCL: Login -> from", from);
   const [showPWD, setShowPWD] = useState(false);
 
   async function onSubmit(data, e) {
     delete data.isPartner;
-    localStorage.setItem("account", JSON.stringify(data));
     const res = await http({ url: "operators/login", data: data, method: "post", headers: { noNeedToken: true } });
+    setLocalStorage('account',data)
     res.login_time = new Date().getTime();
-    await localStorage.setItem("userData", JSON.stringify(res));
-    history.replace(from);
+    const dataTemp=JSON.stringify(res)
+     localStorage.setItem('userData',dataTemp)
+      history.replace(from);
   }
 
   return (

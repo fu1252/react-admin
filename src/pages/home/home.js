@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { Drawer, NavBar, Icon } from "antd-mobile";
-import {  Switch, Route,Redirect,useLocation,useHistory} from "react-router-dom";
+import {  Switch, Route,Redirect,useHistory} from "react-router-dom";
 import Main from './main'
+import About from '@/pages/about/about'
+import User from '@/pages/user/user'
+import {useStoreState,useStoreActions} from 'easy-peasy'
 import style from './home.less'
 
 function Home() {
   let history=useHistory()
-  const [isOpen, setIsOpen] = useState(false);
+  const isOpenSidebar=useStoreState(state=>state.user.isOpenSidebar)
+  const toggleSidebar=useStoreActions(actions=>actions.user.toggleSidebar)
 
-  function onOpenChange() {
-    setIsOpen(!isOpen);
-  }
 
   const data=[
     {text:'销售数据'},
@@ -24,7 +25,7 @@ function Home() {
   function sidebar(){
     return(
       <ul className={style.sidebarList}>
-        <li className='username' onClick={()=>history.push('/logout')}> <span className="avatar"></span> test_free</li>
+        <li className='username' onClick={()=>history.push('/user')}> <span className="avatar"></span> test_free</li>
         {data.map(item=>(
           <li className='listItem' key={item.text}>{item.text}</li>
         ))}
@@ -32,25 +33,6 @@ function Home() {
     )
   }
 
-  function About(){
-    return(
-      <div>
-        我是abut页面
-        <button className='custom-btn' onClick={()=>history.push('/people')}>people</button>
-      </div>
-    )
-  }
-  function People(){
-    return(
-      <div>
-        我是people页面
-        <button className='custom-btn' onClick={()=>history.push('/home')}>home</button>
-        <div>
-        <button className='custom-btn' onClick={()=>history.push('/login')}>login</button>
-        </div>
-      </div>
-    )
-  }
 
   function NotFound(){
     return(
@@ -63,21 +45,22 @@ function Home() {
 
   return (
     <div className={style.home}>
-      <NavBar icon={<Icon type="ellipsis"/>} onLeftClick={onOpenChange}>
+      <NavBar icon={<Icon type="ellipsis"/>} onLeftClick={toggleSidebar}>
         导航
       </NavBar>
-      <Drawer  enableDragHandle sidebar={sidebar()} open={isOpen} onOpenChange={onOpenChange}>
+      <Drawer  enableDragHandle sidebar={sidebar()} open={isOpenSidebar} onOpenChange={toggleSidebar}>
         <Switch>
           <Redirect exact from='/' to='/home'/>
           <Route exact path="/home">
             <Main />
           </Route>
-          <Route path="/about">
+          <Route  path="/user">
+            <User />
+          </Route>
+          <Route  path="/about">
             <About />
           </Route>
-          <Route path="/people">
-            <People />
-          </Route>
+
           <Route >
           <NotFound/>
         </Route>

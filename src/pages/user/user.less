@@ -1,0 +1,83 @@
+.userWrapper{
+  font-size: 16px;
+  :global{
+    .user-btn{
+      width: 80%;
+      margin:30px auto 0;
+      display: block;
+      height: 50px;
+    }
+    .avatar{
+      height: 100px;
+      background-color: rgb(150, 222, 247);
+      display: flex;
+      align-items: center;
+      .left{
+        margin: 0 20px 0 30px;        
+        width: 50px;
+        height: 50px;
+        background-color: gray;
+        border-radius: 50%;
+      }
+
+    }
+    .listItem{
+      display: flex;
+      align-items: center;
+      height: 70px;
+      background-color: #fff;
+      border-bottom: 1px solid #eee;
+      padding-left: 40px;
+      justify-content: space-between;
+      img{
+        margin-right: 30px;
+      }
+      &:hover{
+        background-color: blanchedalmond;
+      }
+    }
+  }
+}
+
+.formWrapper{
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top:0;
+  left: 0;
+  background-color: #fff;
+  font-size: 16px;
+  :global{
+    .form-btn{
+      width: 70%;
+      display: block;
+      margin-top: 30px;
+    }
+    .header{
+       height: 60px;
+       background-color: cadetblue;
+       color:#fff;
+       text-align: center;
+       line-height: 60px;
+    }
+    .title{
+      height: 100px;
+      text-align: center;
+      line-height: 100px;
+    }
+    .input{
+      height: 50px;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      border:1px solid #eee ;
+      .form-input{
+        display: inline-flex;
+        width: 100px;
+        border:none;
+        margin-left: 20px;
+      }
+    }
+    
+  }
+}

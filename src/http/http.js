@@ -1,7 +1,9 @@
 import axios from "axios";
 import { Toast } from "antd-mobile";
 import allApi from "../config.js";
-import { getUserData } from "../utils/helps";
+import {getLocalStorage} from '@/utils/helps'
+
+const userData=getLocalStorage('userData')
 
 const service = axios.create({
   baseURL: allApi.api,
@@ -10,17 +12,17 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
-    if (getUserData()) {
-      const time = getUserData().login_time;
+    if (userData) {
+      const time = userData.login_time;
       const difTime = new Date().getTime() - time > 1000 * 60 * 60 * 24;
       if (difTime) {
         Toast.fail("登录过期,请重新登录",3);
         setTimeout(() => {
           localStorage.removeItem("userData");
-          window.history.go("/");
+          window.history.go("/login");
         }, 3000);
       }
-      config.headers["Authorization"] = `JWT ${getUserData().access_token}`;
+      config.headers["Authorization"] = `JWT ${userData.access_token}`;
     }
     if (config.headers.noNeedToken) {
       delete config.headers["Authorization"];
