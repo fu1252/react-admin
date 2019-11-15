@@ -1,3 +1,5 @@
+@import '../../style/base.less';
+
 .home{
   :global{
     .am-drawer{
@@ -15,8 +17,35 @@
   background-color: #fff;
   overflow: hidden;
   :global{
+    .injected-svg{
+        width: 16px;
+        height: 16px;
+    }
+    .navActive{
+      .listItem{
+        color:@blue;
+        background-color: antiquewhite;
+      }
+      .injected-svg path{
+          fill:@blue;
+      }
+    }
     .listItem{
-      margin: 0 0 30px 30px;
+      padding: 20px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color:@black-text;
+      .text{
+        margin-left: 10px;
+      }
+      &:hover,&:active{
+          color:@blue;
+          background-color: antiquewhite;
+        .injected-svg path{
+            fill:@blue;
+        }
+      }
     }
     .username{
       margin: 30px 0 30px 20px;

@@ -1,0 +1,55 @@
+@import "../../style/base.less";
+
+.loginWrapper {
+  background-color: #fff;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  :global {
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 30px 0;
+      font-size: 20px;
+      color: @blue;
+    }
+    .login-btn {
+      width: 60%;
+      margin-top: 20px;
+      position: relative;
+    }
+
+    .togglePWD {
+      margin-left: 20px;
+    }
+    .login-submit {
+      width: 80%;
+      margin: 20px auto;
+      font-size: 20px;
+      font-weight: 450;
+      display: block;
+      height: 40px;
+    }
+    .login-form {
+      padding: 0 20px;
+    }
+    .bottom-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      .login-checkbox {
+        display: flex;
+        align-items: center;
+      }
+      .forgetPWD {
+        margin-right: 10px;
+        color: @blue;
+      }
+    }
+    .warn-text {
+      color: red;
+    }
+  }
+}

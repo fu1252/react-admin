@@ -1,10 +1,11 @@
 import React, { lazy,useEffect } from "react";
 import { Drawer, NavBar, Icon } from "antd-mobile";
-import { Switch, Route, Redirect, useHistory } from "react-router-dom";
+import { Switch, Route, Redirect, useHistory,NavLink } from "react-router-dom";
 import http from '@/http/http'
 import {getLocalStorage,getSessionStorage,setSessionStorage } from "@/utils/storage";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import style from "./home.less";
+import ReactSVG from 'react-svg'
 
 const About = lazy(() => import("@/pages/about/about"));
 const User = lazy(() => import("@/pages/user/user"));
@@ -14,16 +15,21 @@ function Home() {
 
   let history = useHistory();
   const isOpenSidebar = useStoreState(state => state.layout.isOpenSidebar);
+  const role = useStoreState(state => state.user.userRole);
   const toggleSidebar = useStoreActions(actions => actions.layout.toggleSidebar);
 
-  const data = [
-    { text: "销售数据" },
-    { text: "设备管理" },
-    { text: "商品管理" },
-    { text: "订单管理" },
-    { text: "账目管理" },
-    { text: "会员管理" }
+  const baseNavList = [
+    { text: "销售数据",role:['user','admin'],icon:'saleTab',path:'/sale' },
+    { text: "设备管理",role:['user','admin'],icon:'machine',path:'/machine' },
+    { text: "商品管理",role:['user','admin'],icon:'shop',path:'/shop' },
+    { text: "订单管理",role:['admin'],icon:'order',path:'order' },
+    { text: "账目管理",role:['admin'],icon:'account',path:'account' },
+    { text: "会员管理",role:['user','admin'],icon:'member',path:'member' }
   ];
+  
+
+  const navList=baseNavList.filter(item=>item.role.includes(role))
+  
 
   useEffect(() => {
       async function getData() {
@@ -46,10 +52,14 @@ function Home() {
           {" "}
           <span className="avatar"></span> test_free
         </li>
-        {data.map(item => (
-          <li className="listItem" key={item.text}>
-            {item.text}
+       
+        {navList.map(item => (
+            <NavLink exact activeClassName="navActive"  to={item.path}>
+          <li className="listItem" key={item.text} >
+           <ReactSVG className='inlineSVG' src={require(`@/assets/${item.icon}.svg`)}/>
+           <span className="text">{item.text}</span>  
           </li>
+            </NavLink>
         ))}
       </ul>
     );
@@ -74,7 +84,7 @@ function Home() {
           <Route path="/user">
             <User />
           </Route>
-          <Route path="/about">
+          <Route path="/about" >
             <About />
           </Route>
           <Route>

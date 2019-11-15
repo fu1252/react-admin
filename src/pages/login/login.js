@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory,Switch,Route, useLocation } from "react-router-dom";
 import useForm from "react-hook-form";
 import http from "../../http/http";
 import { getLocalStorage, setLocalStorage } from "@/utils/storage";
-import "./login.css";
+import style from"./login.less";
 
 function Login() {
 
@@ -29,12 +29,10 @@ function Login() {
     history.replace(from);
   }
 
-  return (
-    <div>
-      <button className="custom-btn" onClick={() => history.push("/")}>
-        去主页
-      </button>
-
+  function Login(){
+    return (
+      <div className={style.loginWrapper}>
+      <div className="header">运营管理系统</div>
       <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
         <input
           name="name"
@@ -55,15 +53,38 @@ function Login() {
           {showPWD ? "密码隐藏" : "密码可见"}
         </span>
         {errors.password && <div className="warn-text">请输入密码 </div>}
+        <div className="bottom-wrapper">
         <div className="login-checkbox">
           <input type="checkbox" ref={register} name="isPartner" className="custom-checkbox" id="checkbox" />{" "}
           <label htmlFor="checkbox">我是子账号/合伙人</label>
         </div>
+          <span className="forgetPWD" onClick={()=>history.push('/login/forgetPWD')}>忘记密码</span>
+          </div>
         <button className="custom-btn login-submit" type="submit">
           登录
         </button>
       </form>
     </div>
+    )
+  }
+  
+  function ForgetPWD(){
+    return(
+      <div className={style.forgetPWDWrapper}>
+         <h2>aaaaaa</h2>
+      </div>
+    )
+  }
+
+  return (
+    <Switch>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/login/forgetPWD">
+          <ForgetPWD />
+        </Route>
+      </Switch>
   );
 }
 
