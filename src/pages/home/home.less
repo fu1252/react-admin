@@ -17,32 +17,40 @@
   background-color: #fff;
   overflow: hidden;
   :global{
+    .icon-open{
+      transform: rotate(90deg);
+      transition: all .3s linear;
+    }
+    .inlineSVG{
+      transition: all .3s linear;
+
+    }
     .subList-hidden{
       display: none;
     }
     .injected-svg{
         width: 16px;
         height: 16px;
+        display:flex;
+        align-items: center;
     }
-    .navActive{
-      .listItem{
+    .navActive.listItem{
         color:@blue;
         background-color: antiquewhite;
-      }
       .injected-svg path{
           fill:@blue;
       }
     }
     .listItem{
-      padding: 20px 0;
+      padding: 20px 0 20px 30px;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       color:@black-text;
       .text{
-        margin-left: 10px;
+        margin:0 10px;
       }
-      &:hover,&:active{
+      &:hover{
           color:@blue;
           background-color: antiquewhite;
         .injected-svg path{
