@@ -1,7 +1,7 @@
 import {action} from 'easy-peasy'
 
 const layout={
-  isOpenSidebar:true,
+  isOpenSidebar:false,
   closeSidebar:action(state=>state.isOpenSidebar=false),
   toggleSidebar:action(state=>state.isOpenSidebar=!state.isOpenSidebar),
 }

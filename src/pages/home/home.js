@@ -7,6 +7,7 @@ import { useStoreState, useStoreActions } from 'easy-peasy'
 import style from './home.less'
 import classnames from 'classnames'
 import ReactSVG from 'react-svg'
+import Chart from '@/pages/chart/chart'
 
 const About = lazy(() => import('@/pages/about/about'))
 const User = lazy(() => import('@/pages/user/user'))
@@ -22,7 +23,7 @@ function Home() {
   console.log('TCL: Home -> currentClickNav', currentClickNav)
 
   const baseNavList = [
-    { text: '销售数据', roles: ['user', 'admin'], icon: 'saleTab', path: '/sale/fdd' },
+    { text: '图表展示', roles: ['user', 'admin'], icon: 'saleTab', path: '/chart' },
     { text: '设备管理', roles: ['user', 'admin'], icon: 'machine', path: '/machine' },
     {
       text: '商品管理', roles: ['user', 'admin'], icon: 'shop',key:'shop',
@@ -140,6 +141,9 @@ function Home() {
           </Route>
           <Route path="/user">
             <User />
+          </Route>
+          <Route path="/chart">
+            <Chart />
           </Route>
           <Route path="/about">
             <About />
