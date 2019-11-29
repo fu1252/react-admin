@@ -38,13 +38,13 @@ function User() {
             className="listItem"
             onClick={() => history.push({ pathname: "user/form", state: { action: "password" } })}
           >
-            修改密码 <img className="custom-svg" src={require("@/assets/right.svg")} alt="jg" />{" "}
+            修改密码 <img className="custom-svg" src={require("@/assets/svg/right.svg")} alt="jg" />{" "}
           </li>
           <li className="listItem" onClick={() => history.push({ pathname: "user/form", state: { action: "email" } })}>
-            修改邮箱 <img className="custom-svg" src={require("@/assets/right.svg")} alt="jg" />
+            修改邮箱 <img className="custom-svg" src={require("@/assets/svg/right.svg")} alt="jg" />
           </li>
           <li className="listItem" onClick={() => history.push({ pathname: "user/form", state: { isUpload: true } })}>
-            结算核验 <img className="custom-svg" src={require("@/assets/right.svg")} alt="jg" />
+            结算核验 <img className="custom-svg" src={require("@/assets/svg/right.svg")} alt="jg" />
           </li>
         </ul>
 

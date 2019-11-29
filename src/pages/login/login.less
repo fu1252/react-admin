@@ -5,26 +5,50 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:@blue;
+  background: url('../../assets/image/login.jpg') no-repeat center center ;
+  background-size: cover;
+  .container{
+    width: 300px;
+    height: 300px;
   :global {
+    .pwdWrap{
+      margin-top: 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      .togglePWD {
+        position: absolute;
+        right: 20px;
+        height: 32px;
+    width: 32px;
+      }
+    }
+    .error{
+      border: 1px solid red;
+      box-shadow:0px -1px 6px 2px rgba(255, 0, 0, 0.35)
+    }
+    .error::-webkit-input-placeholder {
+      color:red;
+    }
     .header {
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 30px 0;
-      font-size: 20px;
-      color: @blue;
+      font-size: 25px;
+      font-weight: 550;
     }
     .login-btn {
-      width: 60%;
-      margin-top: 20px;
       position: relative;
     }
 
-    .togglePWD {
-      margin-left: 20px;
-    }
+    
     .login-submit {
-      width: 80%;
+      width: 100%;
       margin: 20px auto;
       font-size: 20px;
       font-weight: 450;
@@ -33,12 +57,16 @@
     }
     .login-form {
       padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .bottom-wrapper {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 20px;
+      width: 100%;
       .login-checkbox {
         display: flex;
         align-items: center;
@@ -52,4 +80,5 @@
       color: red;
     }
   }
+}
 }

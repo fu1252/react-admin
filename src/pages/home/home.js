@@ -1,7 +1,7 @@
 import React, { lazy, useEffect, useState } from 'react'
 import { Drawer, NavBar, Icon } from 'antd-mobile'
 import { Switch, Route, Redirect, useHistory,useLocation } from 'react-router-dom'
-import http from '@/http/http'
+import http from '@/utils/http'
 import { getLocalStorage, getSessionStorage, setSessionStorage } from '@/utils/storage'
 import { useStoreState, useStoreActions } from 'easy-peasy'
 import style from './home.less'
@@ -97,11 +97,11 @@ function Home() {
         <div key={item.text} >
           <li onClick={() =>onListClick(item) }>
             <div className={classnames({listItem:true,navActive:location.pathname==item.path})}>
-              <ReactSVG className="inlineSVG" src={require(`@/assets/${item.icon}.svg`)} />
+              <ReactSVG className="inlineSVG" src={require(`@/assets/svg/${item.icon}.svg`)} />
               <span className="text">{item.text}</span>
               {item.children && <ReactSVG  className={classnames({inlineSVG:true,
                 'icon-open':currentClickNav[item.key]
-              })} src={require('@/assets/right.svg')} />}
+              })} src={require('@/assets/svg/right.svg')} />}
             </div>
           </li>
           {item.children &&<div className={classnames({
