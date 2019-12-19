@@ -1,73 +1,25 @@
-import React, { lazy, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { Drawer, NavBar, Icon } from 'antd-mobile'
-import { Switch, Route, Redirect, useHistory,useLocation } from 'react-router-dom'
+import { useHistory,useLocation } from 'react-router-dom'
 import http from '@/utils/http'
 import { getLocalStorage, getSessionStorage, setSessionStorage } from '@/utils/storage'
 import { useStoreState, useStoreActions } from 'easy-peasy'
 import style from './home.less'
 import classnames from 'classnames'
 import ReactSVG from 'react-svg'
-import Chart from '@/pages/chart/chart'
+import Route from './route'
+import listData from '@/permission/navList'
 
-const About = lazy(() => import('@/pages/about/about'))
-const User = lazy(() => import('@/pages/user/user'))
-const Main = lazy(() => import('./main'))
 
 function Home() {
   let history = useHistory()
   let location=useLocation()
   const isOpenSidebar = useStoreState(state => state.layout.isOpenSidebar)
-  const role = useStoreState(state => state.user.userRole)
   const toggleSidebar = useStoreActions(actions => actions.layout.toggleSidebar)
   const [currentClickNav, setCurrentClickNav] = useState({})
   console.log('TCL: Home -> currentClickNav', currentClickNav)
 
-  const baseNavList = [
-    { text: '图表展示', roles: ['user', 'admin'], icon: 'saleTab', path: '/chart' },
-    { text: '设备管理', roles: ['user', 'admin'], icon: 'machine', path: '/machine' },
-    {
-      text: '商品管理', roles: ['user', 'admin'], icon: 'shop',key:'shop',
-      children: [
-        { text: '地方', roles: ['user','admin'], icon: 'order', path: '/abc' },
-        { text: '哈佛', roles: ['admin'], icon: 'account', path: '/bbc' }
-      ]
-    },
-    { text: '订单管理', roles: ['admin'], icon: 'order', path: '/order' },
-    { text: '账目管理', roles: ['admin'], icon: 'account', path: '/account' },
-    {
-      text: '会员管理',
-      roles: ['user','admin'],
-      icon: 'member',
-      key:'member',
-      children: [
-        { text: '礼物', roles: ['admin'], icon: 'order', path: '/gift' },
-        { text: '打折', roles: ['user','admin'], icon: 'account',key:'subAccount',  children: [
-          { text: '家里的', roles: ['user','admin'], icon: 'order', path: '/tttt' },
-          { text: '电风扇', roles: ['admin'], icon: 'account', path: '/ggg',key:'subsub',children:[
-            { text: '大幅度', roles: ['admin'], icon: 'order', path: '/445' },
-
-          ] }
-        ]}
-      ]
-    }
-  ]
   
-  // 过滤路由权限
-  const cloneData=JSON.parse(JSON.stringify(baseNavList))
-  function filterData(data){
-    for (let index = 0; index < data.length; index++) {
-      const ele = data[index]
-      if(!ele.roles.includes(role)){
-        data.splice(index,1)
-        index--
-      }else if(ele.children){
-        filterData(ele.children)
-      }
-     
-    }
-  }
-  filterData(cloneData)
-  const navList = cloneData
 
   useEffect(() => {
     async function getData() {
@@ -119,14 +71,11 @@ function Home() {
           {' '}
           <span className="avatar"></span> test_free
         </li>
-        {listEle(navList)}
+        {listEle(listData)}
       </ul>
     )
   }
 
-  function NotFound() {
-    return <div className={style.notfound}>来到没有页面的沙漠地带</div>
-  }
 
   return (
     <div className={style.home}>
@@ -134,24 +83,7 @@ function Home() {
         导航
       </NavBar>
       <Drawer enableDragHandle sidebar={sidebar()} open={isOpenSidebar} onOpenChange={toggleSidebar}>
-        <Switch>
-          <Redirect exact from="/" to="/home" />
-          <Route exact path="/home">
-            <Main />
-          </Route>
-          <Route path="/user">
-            <User />
-          </Route>
-          <Route path="/chart">
-            <Chart />
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route>
-            <NotFound />
-          </Route>
-        </Switch>
+        <Route />
       </Drawer>
     </div>
   )
